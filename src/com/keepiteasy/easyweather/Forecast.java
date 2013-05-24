@@ -1,5 +1,6 @@
 package com.keepiteasy.easyweather;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -13,18 +14,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Forecast extends FragmentActivity implements ActionBar.TabListener {
 
@@ -41,10 +37,17 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	 */
 	ViewPager mViewPager;
 
+	public static LocationManager lm;
+
+	public static mylocationlistener ll;
+
 	public static double latValue;
 	public static double longValue;
 	public static Fragment forecastFragment = new ForecastFragment();
 	public static Fragment conditionsFragement = new ConditionsFragment();
+	public static ForecastObject forecastObject;
+
+	public static Location location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +85,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
 
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		LocationListener ll = new mylocationlistener();
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		ll = new mylocationlistener();
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 	}
 
@@ -107,6 +110,11 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	@Override
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+	}
+	
+	public static void setForecast(ForecastObject data) {
+		forecastObject = data;
+		((ForecastFragment) forecastFragment).setForecast();
 	}
 
 	/**
@@ -168,11 +176,16 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	public class mylocationlistener implements LocationListener {
 		@Override
 		public void onLocationChanged(Location location) {
-			if (location != null) {
-				Forecast.latValue = location.getLatitude();
-				Forecast.longValue = location.getLongitude();
+			if (location != null) {				
+				Forecast.location = location;
 				
-				((ForecastFragment) Forecast.forecastFragment).setPosition(Forecast.latValue, Forecast.longValue);
+				String la = String.valueOf(location.getLatitude());
+				String lo = String.valueOf(location.getLongitude());
+				
+				ForecastParser parser = new ForecastParser();
+				parser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/forecast/"+la+"/"+lo);
+				
+				Forecast.lm.removeUpdates(this);
 			}
 		}
 		@Override
@@ -188,8 +201,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static class ForecastFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
-		private static TextView latLabel;
-		private static TextView longLabel;
+		private static TextView dayTitle1, dayTitle2,dayTitle3, dayText1, dayText2, dayText3;
 		private static ProgressBar progressBar;
 
 		public ForecastFragment() {
@@ -197,23 +209,48 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
-			TextView label = (TextView) rootView.findViewById(R.id.section_label);
-			latLabel = (TextView) rootView.findViewById(R.id.lat_label);
-			longLabel = (TextView) rootView.findViewById(R.id.long_label);
+			View rootView = inflater.inflate(R.layout.fragment_forecast, container, false););
 			progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+			
+			dayTitle1 = (TextView) rootView.findViewById(R.id.DayTitle1);
+			dayTitle2 = (TextView) rootView.findViewById(R.id.DayTitle2);
+			dayTitle3 = (TextView) rootView.findViewById(R.id.DayTitle3);
+			dayText1 = (TextView) rootView.findViewById(R.id.DayForecast1);
+			dayText2 = (TextView) rootView.findViewById(R.id.DayForecast2);
+			dayText3 = (TextView) rootView.findViewById(R.id.DayForecast3);
 
 			return rootView;
 		}
 		
-		public void setPosition(double latVal, double longVal) {
+		public void setForecast() {
 			progressBar.setVisibility(View.GONE);
 			
-			latLabel.setText(String.valueOf(latVal));
-			longLabel.setText(String.valueOf(longVal));
+			dayTitle1.setVisibility(View.VISIBLE);
+			dayTitle2.setVisibility(View.VISIBLE);
+			dayTitle3.setVisibility(View.VISIBLE);
 			
-			latLabel.setVisibility(View.VISIBLE);
-			longLabel.setVisibility(View.VISIBLE);
+			dayText1.setVisibility(View.VISIBLE);
+			dayText2.setVisibility(View.VISIBLE);
+			dayText3.setVisibility(View.VISIBLE);
+			
+			ForecastObject forecast = Forecast.forecastObject;
+			ArrayList<ForecastObject.ForecastDay> days = forecast.getForecast();
+			
+			for(int i = 0; i < days.size(); i++) {
+				ForecastObject.ForecastDay day = days.get(i);
+				
+				switch (i) {
+					case 0: 
+						dayTitle1.setText(day.getDay());
+						dayText1.setText(day.getText());
+					case 1:
+						dayTitle2.setText(day.getDay());
+						dayText2.setText(day.getText());
+					case 2:
+						dayTitle3.setText(day.getDay());
+						dayText3.setText(day.getText());
+				}
+			}
 		}
 	}
 
@@ -226,7 +263,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_conditions, container, false);
-			//TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
 
 			return rootView;
 		}
