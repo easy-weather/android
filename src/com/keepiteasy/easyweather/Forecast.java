@@ -261,7 +261,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static class ConditionsFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
-		public static TextView city, temp, temp_c;
+		public static TextView city, temp, temp_c, humidity_label, humidity, uv_index_label, uv_index, precip_label, precip;
 		private ProgressBar progressBar;
 
 		public ConditionsFragment() {
@@ -276,6 +276,13 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			city = (TextView) rootView.findViewById(R.id.textView1);
 			temp = (TextView) rootView.findViewById(R.id.textView2);
 			temp_c = (TextView) rootView.findViewById(R.id.textView3);
+			humidity_label = (TextView) rootView.findViewById(R.id.textView4);
+			uv_index_label = (TextView) rootView.findViewById(R.id.textView5);
+			precip_label = (TextView) rootView.findViewById(R.id.textView6);
+			
+			humidity = (TextView) rootView.findViewById(R.id.textView7);
+			uv_index = (TextView) rootView.findViewById(R.id.textView8);
+			precip = (TextView) rootView.findViewById(R.id.textView9);
 
 			return rootView;
 		}
@@ -285,13 +292,23 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			
 			ConditionsObject conditions = Forecast.conditionsObject;
 			
+			uv_index_label.setVisibility(View.VISIBLE);
+			humidity_label.setVisibility(View.VISIBLE);
+			precip_label.setVisibility(View.VISIBLE);
+			
 			city.setVisibility(View.VISIBLE);
 			temp.setVisibility(View.VISIBLE);
 			temp_c.setVisibility(View.VISIBLE);
+			uv_index.setVisibility(View.VISIBLE);
+			humidity.setVisibility(View.VISIBLE);
+			precip.setVisibility(View.VISIBLE);
 			
 			city.setText(conditions.getCity());
 			temp.setText(conditions.getTemp());
 			temp_c.setText(conditions.getTemp_c());
+			humidity.setText(conditions.getHumidity());
+			uv_index.setText(conditions.getUV());
+			precip.setText(conditions.getPrecip());
 		}
 	}
 
