@@ -10,5 +10,6 @@
     <string name="precipitation">Precipitation</string>
     <string name="humidty">Humidty</string>
     <string name="uv_index">UV Index</string>
+    <string name="easy_weather">Easy Weather</string>
 
 </resources>

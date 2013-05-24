@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -36,10 +38,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
-	public static LocationManager lm;
-
-	public static mylocationlistener ll;
 
 	public static double latValue;
 	public static double longValue;
@@ -87,9 +85,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
 
-		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		ll = new mylocationlistener();
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+		final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
@@ -175,39 +172,9 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		}
 	}
 
-	public class mylocationlistener implements LocationListener {
-		@Override
-		public void onLocationChanged(Location location) {
-			if (location != null) {				
-				Forecast.location = location;
-				
-				String la = String.valueOf(location.getLatitude());
-				String lo = String.valueOf(location.getLongitude());
-				
-				ForecastParser parser = new ForecastParser();
-				parser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/forecast/"+la+"/"+lo);
-				
-				ConditionsParser cParser = new ConditionsParser();
-				cParser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/conditions/"+la+"/"+lo);
-				
-				Forecast.lm.removeUpdates(this);
-			}
-		}
-		@Override
-		public void onProviderDisabled(String provider) {
-		}
-		@Override
-		public void onProviderEnabled(String provider) {
-		}
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
-	}
-
 	public static class ForecastFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		private static TextView dayTitle1, dayTitle2,dayTitle3, dayText1, dayText2, dayText3;
-		private static ProgressBar progressBar;
 
 		public ForecastFragment() {
 		}
@@ -215,7 +182,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
-			progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 			
 			dayTitle1 = (TextView) rootView.findViewById(R.id.DayTitle1);
 			dayTitle2 = (TextView) rootView.findViewById(R.id.DayTitle2);
@@ -228,8 +194,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		}
 		
 		public void setForecast() {
-			progressBar.setVisibility(View.GONE);
-			
 			dayTitle1.setVisibility(View.VISIBLE);
 			dayTitle2.setVisibility(View.VISIBLE);
 			dayTitle3.setVisibility(View.VISIBLE);
@@ -262,7 +226,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	public static class ConditionsFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		public static TextView city, temp, temp_c, humidity_label, humidity, uv_index_label, uv_index, precip_label, precip;
-		private ProgressBar progressBar;
 
 		public ConditionsFragment() {
 		}
@@ -270,8 +233,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_conditions, container, false);
-			
-			progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 
 			city = (TextView) rootView.findViewById(R.id.textView1);
 			temp = (TextView) rootView.findViewById(R.id.textView2);
@@ -288,8 +249,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		}
 		
 		public void setConditions() {
-			progressBar.setVisibility(View.GONE);
-			
 			ConditionsObject conditions = Forecast.conditionsObject;
 			
 			uv_index_label.setVisibility(View.VISIBLE);
@@ -301,14 +260,13 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			temp_c.setVisibility(View.VISIBLE);
 			uv_index.setVisibility(View.VISIBLE);
 			humidity.setVisibility(View.VISIBLE);
-			precip.setVisibility(View.VISIBLE);
 			
-			city.setText(conditions.getCity());
-			temp.setText(conditions.getTemp());
-			temp_c.setText(conditions.getTemp_c());
+			city.setText("For " + conditions.getCity());
+			temp.setText(conditions.getTemp() + "K");
+			temp_c.setText("(" + conditions.getTemp_c() + "¡ C)");
 			humidity.setText(conditions.getHumidity());
 			uv_index.setText(conditions.getUV());
-			precip.setText(conditions.getPrecip());
+			precip.setText(conditions.getPrecip() + "mm");
 		}
 	}
 

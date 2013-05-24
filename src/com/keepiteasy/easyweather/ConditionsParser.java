@@ -10,10 +10,16 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class ConditionsParser extends AsyncTask<String, Void, JSONObject> {
+	private Activity caller;
+	public ConditionsParser(Activity act) {
+		caller = act;
+	}
+	
 	@Override
 	protected JSONObject doInBackground(String... params) {
 		JSONObject obj = null;
@@ -41,6 +47,7 @@ public class ConditionsParser extends AsyncTask<String, Void, JSONObject> {
 		if (result != null) {
 			Log.d("results", result.toString());
 			Forecast.setConditions(new ConditionsObject(result));
+			caller.finish();
 		}
 	}
 
