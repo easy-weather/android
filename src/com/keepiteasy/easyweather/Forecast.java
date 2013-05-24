@@ -49,6 +49,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static Location location;
 
+	private static ConditionsObject conditionsObject;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,13 +118,17 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		forecastObject = data;
 		((ForecastFragment) forecastFragment).setForecast();
 	}
+	
+	public static void setConditions(ConditionsObject data) {
+		conditionsObject = data;
+		((ConditionsFragment) conditionsFragement).setConditions();
+	}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the
 	 * sections/tabs/pages.
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -134,30 +140,26 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 			switch (position) {
 				case 0 :
-					fragment = forecastFragment;
-
-					args.putInt(ConditionsFragment.ARG_SECTION_NUMBER, position + 1);
-					fragment.setArguments(args);
-					return fragment;
-				case 1 :
 					fragment = conditionsFragement;
 					
 					args.putInt(ConditionsFragment.ARG_SECTION_NUMBER, position + 1);
 					fragment.setArguments(args);
 					return fragment;
-				default :
+				case 1 :
 					fragment = forecastFragment;
 
 					args.putInt(ConditionsFragment.ARG_SECTION_NUMBER, position + 1);
 					fragment.setArguments(args);
 					return fragment;
+				default :
 			}
+			
+			return null;
 		}
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
-			return 3;
+			return 2;
 		}
 
 		@Override
@@ -165,9 +167,9 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			Locale l = Locale.getDefault();
 			switch (position) {
 				case 0 :
-					return getString(R.string.title_section1).toUpperCase(l);
-				case 1 :
 					return getString(R.string.title_section2).toUpperCase(l);
+				case 1 :
+					return getString(R.string.title_section1).toUpperCase(l);
 			}
 			return null;
 		}
@@ -184,6 +186,9 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 				
 				ForecastParser parser = new ForecastParser();
 				parser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/forecast/"+la+"/"+lo);
+				
+				ConditionsParser cParser = new ConditionsParser();
+				cParser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/conditions/"+la+"/"+lo);
 				
 				Forecast.lm.removeUpdates(this);
 			}
@@ -209,7 +214,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_forecast, container, false););
+			View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
 			progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 			
 			dayTitle1 = (TextView) rootView.findViewById(R.id.DayTitle1);
@@ -256,6 +261,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static class ConditionsFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
+		public static TextView city, temp, temp_c;
+		private ProgressBar progressBar;
 
 		public ConditionsFragment() {
 		}
@@ -263,8 +270,28 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_conditions, container, false);
+			
+			progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+
+			city = (TextView) rootView.findViewById(R.id.textView1);
+			temp = (TextView) rootView.findViewById(R.id.textView2);
+			temp_c = (TextView) rootView.findViewById(R.id.textView3);
 
 			return rootView;
+		}
+		
+		public void setConditions() {
+			progressBar.setVisibility(View.GONE);
+			
+			ConditionsObject conditions = Forecast.conditionsObject;
+			
+			city.setVisibility(View.VISIBLE);
+			temp.setVisibility(View.VISIBLE);
+			temp_c.setVisibility(View.VISIBLE);
+			
+			city.setText(conditions.getCity());
+			temp.setText(conditions.getTemp());
+			temp_c.setText(conditions.getTemp_c());
 		}
 	}
 

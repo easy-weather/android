@@ -2,8 +2,6 @@ package com.keepiteasy.easyweather;
 
 import java.util.Calendar;
 
-import com.keepiteasy.easyweather.Forecast.ForecastFragment;
-
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
