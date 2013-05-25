@@ -9,26 +9,11 @@
     tools:context=".Forecast$ConditionsFragment" >
 
     <RelativeLayout
-        android:id="@+id/city_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/city" >
-
-        <TextView
-            android:id="@+id/city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:text="@string/city_sample"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/section_label_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/city_layout" >
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="false" >
 
         <TextView
             android:id="@+id/section_label"
@@ -42,35 +27,69 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/temp_layout"
+        android:id="@+id/city_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/section_label_layout" >
+        android:layout_below="@+id/section_label_layout" >
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text="@string/city_sample"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignStart="@id/section_label_layout"
+        android:layout_below="@id/city_layout"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/weather_icon"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher" />
+
+    <RelativeLayout
+        android:id="@+id/temp_layout"
+        android:layout_width="160dp"
+        android:layout_height="75dp"
+        android:layout_alignEnd="@id/section_label_layout"
+        android:layout_below="@id/city_layout"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/imageView1" >
 
         <TextView
             android:id="@+id/temp_k"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
             android:text="@string/temp_k_sample"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/temp_c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/temp_k"
             android:text="@string/temp_c_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/feels_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/temp_layout" >
+        android:layout_below="@id/imageView1"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp" >
 
         <TextView
             android:id="@+id/feels_label"
@@ -87,16 +106,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
+            
             android:text="@string/feels_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@id/humidity_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feels_layout"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/humidity_label"
@@ -111,19 +133,21 @@
             android:id="@+id/humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            
             android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="false"
-            android:layout_centerInParent="true"
             android:text="@string/humidy_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@id/uv_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/humidity_layout"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/uv_label"
@@ -138,19 +162,21 @@
             android:id="@+id/uv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="false"
             android:layout_centerInParent="true"
+            
+            android:layout_alignParentRight="true"
             android:text="@string/uv_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@id/visibility_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/uv_layout"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/visibility_label"
@@ -165,8 +191,8 @@
             android:id="@+id/visibility"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            
             android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="false"
             android:layout_centerInParent="true"
             android:text="@string/visibility_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -174,10 +200,12 @@
 
     <RelativeLayout
         android:id="@id/precip_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/visibility_layout"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/precip_label"
@@ -192,8 +220,8 @@
             android:id="@+id/precip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            
             android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="false"
             android:layout_centerInParent="true"
             android:text="@string/precip_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -201,10 +229,12 @@
 
     <RelativeLayout
         android:id="@id/windchill_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/precip_layout"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/windchill_label"
@@ -219,9 +249,9 @@
             android:id="@+id/windchill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="false"
+            
             android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
             android:text="@string/windchill_sample"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>

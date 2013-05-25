@@ -7,9 +7,9 @@
     <string name="title_section2">Today</string>
     <string name="forecast_title">Forecast</string>
     <string name="conditions_title">Conditions</string>
-    <string name="precipitation">Precipitation</string>
-    <string name="humidty">Humidty</string>
-    <string name="uv_index">UV Index</string>
+    <string name="precipitation">Precipitation:</string>
+    <string name="humidty">Humidty:</string>
+    <string name="uv_index">UV Index:</string>
     <string name="easy_weather">Easy Weather</string>
     <string name="city_sample">For Detroit</string>
     <string name="temp_c_sample">(12.3° C)</string>
@@ -25,5 +25,10 @@
     <string name="windchill">Windchill:</string>
     <string name="windchill_sample">0° C</string>
     <string name="time_sample">Last Updated on May 25, 1:38 PM ADT</string>
+    <string name="weather_icon">Weather Icon</string>
+    <string name="day_1_sample">Day 1</string>
+    <string name="day_2_sample">Day 2</string>
+    <string name="day_3_sample">Day 3</string>
+    <string name="forecast_sample">Partly cloudy in the morning, then clear with a chance of rain. High of 12C. Windy. Winds from the SSE at 30 to 35 km/h. Chance of rain 40%.</string>
 
 </resources>

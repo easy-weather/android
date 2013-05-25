@@ -25,57 +25,51 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/section_label"
-        android:layout_marginTop="27dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-         />
+        android:text="@string/day_1_sample"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/DayTitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/DayTitle1"
+        android:layout_below="@id/DayForecast1"
         android:layout_centerVertical="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        />
+        android:text="@string/day_2_sample"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/DayTitle3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="89dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-         />
+        android:layout_below="@id/DayForecast2"
+        android:text="@string/day_3_sample"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/DayForecast2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/DayTitle3"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/DayTitle2"
-        android:layout_toRightOf="@+id/DayTitle3"
-         />
+        android:layout_toRightOf="@+id/DayTitle2"
+        android:text="@string/forecast_sample" />
 
     <TextView
         android:id="@+id/DayForecast1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/DayTitle2"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/DayTitle1"
-        android:layout_toRightOf="@+id/DayTitle2"
-         />
+        android:layout_toRightOf="@+id/DayTitle1"
+        android:text="@string/forecast_sample" />
 
     <TextView
         android:id="@+id/DayForecast3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/DayTitle3"
-        android:layout_marginTop="28dp"
+        android:layout_below="@+id/DayTitle3"
         android:layout_toRightOf="@+id/DayTitle3"
-         />
+        android:text="@string/forecast_sample" />
 
 </RelativeLayout>

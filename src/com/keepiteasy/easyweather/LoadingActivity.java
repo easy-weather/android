@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 public class LoadingActivity extends Activity {
 
@@ -45,6 +46,10 @@ public class LoadingActivity extends Activity {
 		}
 		
 		if(lastLocation == null) {
+			String text = "Secret Ninjas are searching the globe to find your location...";
+			Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+			toast.show();
+			
 			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 		} else {
 			loadWeather();
@@ -52,6 +57,9 @@ public class LoadingActivity extends Activity {
 	}
 	
 	protected void loadWeather() {
+		String text = "We know where you are, now let's ask the weather Gods what its like...";
+		makeToast(text);
+		
 		Forecast.location = lastLocation;
 		
 		String la = String.valueOf(lastLocation.getLatitude());
@@ -62,6 +70,12 @@ public class LoadingActivity extends Activity {
 		
 		ConditionsParser cParser = new ConditionsParser(activity);
 		cParser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/conditions/"+la+"/"+lo);
+	}
+	
+	public void makeToast(String text) {
+		Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+		toast.show();
+		
 	}
 
 	public class mylocationlistener implements LocationListener {
