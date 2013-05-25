@@ -5,23 +5,18 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class Forecast extends FragmentActivity implements ActionBar.TabListener {
@@ -225,7 +220,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static class ConditionsFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
-		public static TextView city, temp, temp_c, humidity_label, humidity, uv_index_label, uv_index, precip_label, precip;
+		public static TextView city, temp, temp_c, humidity_label, humidity, uv_index_label, time,
+		uv_index, precip_label, precip, feels, feels_label, visib, visib_label, windchill, windchill_label;
 
 		public ConditionsFragment() {
 		}
@@ -234,16 +230,29 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_conditions, container, false);
 
-			city = (TextView) rootView.findViewById(R.id.textView1);
-			temp = (TextView) rootView.findViewById(R.id.textView2);
-			temp_c = (TextView) rootView.findViewById(R.id.textView3);
-			humidity_label = (TextView) rootView.findViewById(R.id.textView4);
-			uv_index_label = (TextView) rootView.findViewById(R.id.textView5);
-			precip_label = (TextView) rootView.findViewById(R.id.textView6);
+			city = (TextView) rootView.findViewById(R.id.city);
+			temp = (TextView) rootView.findViewById(R.id.temp_k);
+			temp_c = (TextView) rootView.findViewById(R.id.temp_c);
 			
-			humidity = (TextView) rootView.findViewById(R.id.textView7);
-			uv_index = (TextView) rootView.findViewById(R.id.textView8);
-			precip = (TextView) rootView.findViewById(R.id.textView9);
+			feels_label = (TextView) rootView.findViewById(R.id.feels_label);
+			feels = (TextView) rootView.findViewById(R.id.feels);
+			
+			humidity_label = (TextView) rootView.findViewById(R.id.humidity_label);
+			humidity = (TextView) rootView.findViewById(R.id.humidity);
+			
+			visib_label = (TextView) rootView.findViewById(R.id.visibility_label);
+			visib = (TextView) rootView.findViewById(R.id.visibility);
+			
+			uv_index_label = (TextView) rootView.findViewById(R.id.uv_label);
+			uv_index = (TextView) rootView.findViewById(R.id.uv);
+			
+			precip_label = (TextView) rootView.findViewById(R.id.precip_label);
+			precip = (TextView) rootView.findViewById(R.id.precip);
+			
+			windchill_label = (TextView) rootView.findViewById(R.id.windchill_label);
+			windchill = (TextView) rootView.findViewById(R.id.windchill);
+
+			time = (TextView) rootView.findViewById(R.id.time);
 
 			return rootView;
 		}
@@ -251,22 +260,36 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		public void setConditions() {
 			ConditionsObject conditions = Forecast.conditionsObject;
 			
-			uv_index_label.setVisibility(View.VISIBLE);
-			humidity_label.setVisibility(View.VISIBLE);
-			precip_label.setVisibility(View.VISIBLE);
-			
-			city.setVisibility(View.VISIBLE);
-			temp.setVisibility(View.VISIBLE);
-			temp_c.setVisibility(View.VISIBLE);
-			uv_index.setVisibility(View.VISIBLE);
-			humidity.setVisibility(View.VISIBLE);
-			
 			city.setText("For " + conditions.getCity());
 			temp.setText(conditions.getTemp() + "K");
 			temp_c.setText("(" + conditions.getTemp_c() + "¡ C)");
 			humidity.setText(conditions.getHumidity());
-			uv_index.setText(conditions.getUV());
+			feels.setText(conditions.getFeelslike() + "¡ C");
+			
+			if(conditions.getVisibility() != "N/A") {
+				visib.setText(conditions.getVisibility() + "km");
+			} else {
+				visib_label.setVisibility(View.GONE);
+				visib.setVisibility(View.GONE);
+			}
+			
+			if(conditions.getUV() > 0) {
+				uv_index.setText(String.valueOf(conditions.getUV()));
+			} else {
+				uv_index_label.setVisibility(View.GONE);
+				uv_index.setVisibility(View.GONE);
+			}
+			
 			precip.setText(conditions.getPrecip() + "mm");
+			
+			if(conditions.getWindchill() != "NA") {
+				windchill.setText(conditions.getWindchill());
+			} else {
+				windchill_label.setVisibility(View.GONE);
+				windchill.setVisibility(View.GONE);
+			}
+			
+			time.setTag(conditions.getTime());
 		}
 	}
 

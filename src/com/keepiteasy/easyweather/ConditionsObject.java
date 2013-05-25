@@ -7,12 +7,11 @@ import android.util.Log;
 
 public class ConditionsObject {
 	private String city, state, icon, temp, temp_c, feelslike, humidity,
-	UV, visibility, windchill, time;
+	visibility, windchill, time;
 	
-	private int precip;
+	private int precip, UV;
 	
 	public ConditionsObject(JSONObject data) {
-		Log.d("data", data.toString());
 		try {
 			city = data.getString("city");
 			state = data.getString("state");
@@ -21,7 +20,7 @@ public class ConditionsObject {
 			temp_c = data.getString("temp_c");
 			feelslike = data.getString("feelslike");
 			humidity = data.getString("humidity");
-			UV = data.getString("UV");
+			UV = data.getInt("UV");
 			visibility = data.getString("visibility");
 			precip = data.getInt("precip");
 			windchill = data.getString("windchill");
@@ -120,11 +119,11 @@ public class ConditionsObject {
 		this.humidity = humidity;
 	}
 
-	public String getUV() {
+	public int getUV() {
 		return UV;
 	}
 
-	public void setUV(String uV) {
-		UV = uV;
+	public void setUV(int uv) {
+		UV = uv;
 	}
 }

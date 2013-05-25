@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="uv_layout" type="id"/>
+    <item name="humidity_layout" type="id" />
+    <item name="precip_layout" type="id" />
+    <item name="visibility_layout" type="id" />
+    <item name="windchill_layout" type="id" />
+</resources>

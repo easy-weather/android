@@ -11,5 +11,19 @@
     <string name="humidty">Humidty</string>
     <string name="uv_index">UV Index</string>
     <string name="easy_weather">Easy Weather</string>
+    <string name="city_sample">For Detroit</string>
+    <string name="temp_c_sample">(12.3° C)</string>
+    <string name="temp_k_sample">123.4K</string>
+    <string name="humidy_sample">12%</string>
+    <string name="uv_sample">10</string>
+    <string name="precip_layout">12mm</string>
+    <string name="precip_sample">12mm</string>
+    <string name="feels_label">Feels Like:</string>
+    <string name="feels_sample">15.8° C</string>
+    <string name="visibility_sample">12km</string>
+    <string name="visibility">Visibility:</string>
+    <string name="windchill">Windchill:</string>
+    <string name="windchill_sample">0° C</string>
+    <string name="time_sample">Last Updated on May 25, 1:38 PM ADT</string>
 
 </resources>
