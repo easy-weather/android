@@ -200,6 +200,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	public static class ForecastFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		private static TextView dayTitle1, dayTitle2, dayTitle3, dayText1, dayText2, dayText3;
+		private static ImageView day1Icon, day2Icon, day3Icon;
 
 		public ForecastFragment() {
 		}
@@ -214,6 +215,10 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			dayText1 = (TextView) rootView.findViewById(R.id.DayForecast1);
 			dayText2 = (TextView) rootView.findViewById(R.id.DayForecast2);
 			dayText3 = (TextView) rootView.findViewById(R.id.DayForecast3);
+			
+			day1Icon = (ImageView) rootView.findViewById(R.id.imageView1);
+			day2Icon = (ImageView) rootView.findViewById(R.id.imageView2);
+			day3Icon = (ImageView) rootView.findViewById(R.id.imageView3);
 
 			return rootView;
 		}
@@ -233,16 +238,31 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			for (int i = 0; i < days.size(); i++) {
 				ForecastObject.ForecastDay day = days.get(i);
 
-				switch (i) {
-					case 0 :
-						dayTitle1.setText(day.getDay());
-						dayText1.setText(day.getText());
-					case 1 :
-						dayTitle2.setText(day.getDay());
-						dayText2.setText(day.getText());
-					case 2 :
-						dayTitle3.setText(day.getDay());
-						dayText3.setText(day.getText());
+				try 
+				{
+				    InputStream ims = assets.open(day.getIcon()+".gif");
+				    Drawable d = Drawable.createFromStream(ims, null);
+				    
+					switch (i) {
+						case 0 :
+							dayTitle1.setText(day.getDay());
+							dayText1.setText(day.getText());
+						    day1Icon.setImageDrawable(d);
+						case 1 :
+							dayTitle2.setText(day.getDay());
+							dayText2.setText(day.getText());
+							day2Icon.setImageDrawable(d);
+						case 2 :
+							dayTitle3.setText(day.getDay());
+							dayText3.setText(day.getText());
+							day3Icon.setImageDrawable(d);
+					}
+				}
+				catch(IOException ex) 
+				{
+					day1Icon.setVisibility(View.GONE);
+					day2Icon.setVisibility(View.GONE);
+					day3Icon.setVisibility(View.GONE);
 				}
 			}
 		}
@@ -298,28 +318,27 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			humidity.setText(conditions.getHumidity());
 			feels.setText(conditions.getFeelslike() + "¡ C");
 
-			if (conditions.getVisibility() != "N/A") {
+			/*if (conditions.getVisibility() != "N/A") {
 				visib.setText(conditions.getVisibility() + "km");
 			} else {
 				visib_label.setVisibility(View.GONE);
 				visib.setVisibility(View.GONE);
-			}
+			}*/
 
 			if (conditions.getUV() > 0) {
 				uv_index.setText(String.valueOf(conditions.getUV()));
 			} else {
-				uv_index_label.setVisibility(View.GONE);
-				uv_index.setVisibility(View.GONE);
+				uv_index.setText(String.valueOf(0));
 			}
 
 			precip.setText(conditions.getPrecip() + "mm");
 
-			if (conditions.getWindchill() != "NA") {
+			/*if (conditions.getWindchill() != "NA") {
 				windchill.setText(conditions.getWindchill());
 			} else {
 				windchill_label.setVisibility(View.GONE);
 				windchill.setVisibility(View.GONE);
-			}
+			}*/
 			
 			try 
 			{
@@ -334,8 +353,6 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			{
 				icon_view.setVisibility(View.GONE);
 			}
-			
-			//icon.setIm
 
 			time.setTag(conditions.getTime());
 		}

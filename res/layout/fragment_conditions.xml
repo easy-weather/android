@@ -41,25 +41,29 @@
             android:text="@string/city_sample"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/image_weather_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp" >
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_alignStart="@id/section_label_layout"
-        android:layout_below="@id/city_layout"
-        android:layout_marginTop="20dp"
         android:contentDescription="@string/weather_icon"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
     <RelativeLayout
         android:id="@+id/temp_layout"
-        android:layout_width="160dp"
-        android:layout_height="75dp"
-        android:layout_alignEnd="@id/section_label_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/city_layout"
-        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
         android:layout_toRightOf="@id/imageView1" >
 
         <TextView
@@ -67,7 +71,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="20dp"
             android:text="@string/temp_k_sample"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -82,12 +85,14 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </RelativeLayout>
+        
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/feels_layout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView1"
+        android:layout_below="@id/image_weather_layout"
         android:layout_centerInParent="true"
         android:layout_marginTop="40dp" >
 
@@ -176,7 +181,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/uv_layout"
         android:layout_centerInParent="true"
-        android:layout_marginTop="10dp" >
+        android:layout_marginTop="10dp"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/visibility_label"
@@ -234,7 +240,8 @@
         android:layout_centerInParent="true"
         android:layout_below="@id/precip_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" >
+        android:layout_marginTop="10dp"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/windchill_label"
