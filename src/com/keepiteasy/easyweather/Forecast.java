@@ -22,10 +22,13 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Forecast extends FragmentActivity implements ActionBar.TabListener {
 
@@ -118,6 +121,28 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.forecast, menu);
+		menu.getItem(0).setOnMenuItemClickListener(new OnMenuItemClickListener()
+        {
+            public boolean onMenuItemClick(MenuItem clickedItem)
+            {
+        		Toast toast = Toast.makeText(getApplicationContext(), "Built by Jeffrey Hann, copyright 2013", Toast.LENGTH_SHORT);
+        		toast.show();
+            	
+                return true;
+            }
+        });
+		
+		menu.getItem(1).setOnMenuItemClickListener(new OnMenuItemClickListener()
+        {
+            public boolean onMenuItemClick(MenuItem clickedItem)
+            {
+        		final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
+        		startActivity(intent);
+        		
+        		return true;
+            }
+        });
+		
 		return true;
 	}
 

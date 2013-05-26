@@ -9,10 +9,17 @@ import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class ForecastParser extends AsyncTask<String, Void, JSONArray> {
+	private Activity caller;
+	
+	public ForecastParser(Activity act) {
+		caller = act;
+	}
+	
 	@Override
 	protected JSONArray doInBackground(String... params) {
 		JSONArray obj = null;
@@ -36,9 +43,11 @@ public class ForecastParser extends AsyncTask<String, Void, JSONArray> {
 
 			return obj;
 		} catch (IOException e) {
+			((LoadingActivity) caller).onError("We are having some trouble reaching our servers.");
 			Log.d("Error reading from server", e.getMessage());
 			return null;
 		} catch (JSONException e) { 
+			((LoadingActivity) caller).onError("We are having some trouble reaching our servers.");
 			Log.d("Error parsing JSON", e.getMessage()); return null; 
 		}
 	}

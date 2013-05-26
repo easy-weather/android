@@ -33,5 +33,9 @@
     <string name="error_string">Oops… Something wen\'t wrong</string>
     <string name="error">Error</string>
     <string name="error_gps">Perhaps you forgot to enable your GPS?</string>
+    <string name="about">About</string>
+    <string name="copyright">Built by Jeffrey Hann, copyright 2013</string>
+    <string name="url">weather.keepiteasy.net</string>
+    <string name="refresh">Refresh</string>
 
 </resources>

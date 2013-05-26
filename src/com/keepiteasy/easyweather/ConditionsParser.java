@@ -42,9 +42,11 @@ public class ConditionsParser extends AsyncTask<String, Void, JSONObject> {
 
 			return obj;
 		} catch (IOException e) {
+			((LoadingActivity) caller).onError("We are having some trouble reaching our servers.");
 			Log.d("Error reading from server", e.getMessage());
 			return null;
 		} catch (JSONException e) { 
+			((LoadingActivity) caller).onError("We are having some trouble reaching our servers.");
 			Log.d("Error parsing JSON", e.getMessage()); return null; 
 		}
 		 
