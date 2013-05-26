@@ -199,7 +199,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static class ForecastFragment extends Fragment {
 		public static final String ARG_SECTION_NUMBER = "section_number";
-		private static TextView dayTitle1, dayTitle2, dayTitle3, dayText1, dayText2, dayText3;
+		private static TextView dayTitle1, dayTitle2, dayTitle3, dayText1, dayText2, dayText3, city, time;
 		private static ImageView day1Icon, day2Icon, day3Icon;
 
 		public ForecastFragment() {
@@ -220,7 +220,15 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			day2Icon = (ImageView) rootView.findViewById(R.id.imageView2);
 			day3Icon = (ImageView) rootView.findViewById(R.id.imageView3);
 
+			time = (TextView) rootView.findViewById(R.id.time);
+			city = (TextView) rootView.findViewById(R.id.city);
+
 			return rootView;
+		}
+		
+		public void setExtraDetails(String c, String t) {
+			time.setText(t);
+			city.setText(c);
 		}
 
 		public void setForecast() {
@@ -311,6 +319,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 		public void setConditions() {
 			ConditionsObject conditions = Forecast.conditionsObject;
+			
+			((ForecastFragment) forecastFragment).setExtraDetails(conditions.getCity(), conditions.getTime());
 
 			city.setText("For " + conditions.getCity());
 			temp.setText(conditions.getTemp() + "K");

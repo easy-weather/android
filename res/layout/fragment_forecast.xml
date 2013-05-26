@@ -8,23 +8,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Forecast$ForecastFragment" >
 
-    <TextView
-        android:id="@+id/section_label"
+    <RelativeLayout
+        android:id="@+id/section_label_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
-        android:text="@string/forecast_title"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:layout_centerInParent="false" >
+
+        <TextView
+            android:id="@+id/section_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text="@string/forecast_title"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/city_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section_label_layout" >
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text="@string/city_sample"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/DayTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/section_label"
+        android:layout_below="@+id/city_layout"
         android:text="@string/day_1_sample"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -107,5 +130,21 @@
         android:layout_marginTop="10dp"
         android:contentDescription="@string/action_settings"
         android:src="@drawable/ic_launcher" />
+
+    <RelativeLayout
+        android:id="@+id/time_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text="@string/time_sample"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -30,5 +30,8 @@
     <string name="day_2_sample">Day 2</string>
     <string name="day_3_sample">Day 3</string>
     <string name="forecast_sample">Partly cloudy in the morning, then clear with a chance of rain. High of 12C. Windy. Winds from the SSE at 30 to 35 km/h. Chance of rain 40%.</string>
+    <string name="error_string">Oops… Something wen\'t wrong</string>
+    <string name="error">Error</string>
+    <string name="error_gps">Perhaps you forgot to enable your GPS?</string>
 
 </resources>
