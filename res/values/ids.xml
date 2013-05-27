@@ -9,4 +9,6 @@
     <item name="DayForecast2" type="id" />
     <item name="frames_container" type="id" />
     <item name="conditions_layout" type="id" />
+    <item name="imageView3" type="id" />
+    <item name="imageView2" type="id" />
 </resources>

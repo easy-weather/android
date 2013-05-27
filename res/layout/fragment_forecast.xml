@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/DayTitle2"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/DayTitle2"
+        android:layout_toRightOf="@id/imageView2"
         android:text="@string/forecast_sample" />
 
     <TextView
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/DayTitle1"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/DayTitle1"
+        android:layout_toRightOf="@id/imageView1"
         android:text="@string/forecast_sample" />
 
     <TextView
@@ -95,40 +95,40 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/DayTitle3"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/DayTitle3"
+        android:layout_toRightOf="@id/imageView3"
         android:text="@string/forecast_sample" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:scaleType="fitCenter"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/DayForecast1"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/action_settings"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:scaleType="fitCenter"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/DayTitle2"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/action_settings"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:scaleType="fitCenter"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/DayTitle3"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/action_settings"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
     <RelativeLayout

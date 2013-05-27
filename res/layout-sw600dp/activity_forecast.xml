@@ -7,24 +7,30 @@
     <RelativeLayout
         android:id="@id/conditions_layout"
         android:layout_width="match_parent"
-        android:layout_height="400dp" >
+        android:layout_height="wrap_content"
+        android:minHeight="200dp" >
 
         <FrameLayout
             android:id="@+id/conditions_container"
             android:layout_width="match_parent"
-            android:layout_height="400dp" >
+            android:layout_height="wrap_content"
+            android:minHeight="200dp" >
+
         </FrameLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_below="@id/conditions_layout" >
+        android:layout_height="wrap_content"
+        android:layout_below="@id/conditions_layout"
+        android:minHeight="300dp" >
 
         <FrameLayout
             android:id="@+id/forecast_container"
             android:layout_width="match_parent"
-            android:layout_height="500dp" >
+            android:layout_height="wrap_content"
+            android:minHeight="300dp" >
+
         </FrameLayout>
     </RelativeLayout>
 
