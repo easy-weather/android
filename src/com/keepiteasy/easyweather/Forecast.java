@@ -10,6 +10,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.http.HttpResponseCache;
@@ -61,38 +62,57 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_forecast);
-		
+
 		assets = getAssets();
 
-		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
-		// a reference to the Tab.
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				actionBar.setSelectedNavigationItem(position);
+		if (findViewById(R.id.frames_container) != null) {
+			if (savedInstanceState != null) {
+				return;
 			}
-		});
 
-		// For each of the sections in the app, add a tab to the action bar.
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
-			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
+			Bundle args = new Bundle();
+			args.putInt(ConditionsFragment.ARG_SECTION_NUMBER, 1);
+			conditionsFragement.setArguments(args);
+
+			getSupportFragmentManager().beginTransaction().add(R.id.conditions_container, conditionsFragement).commit();
+
+			args = new Bundle();
+			args.putInt(ConditionsFragment.ARG_SECTION_NUMBER, 2);
+			forecastFragment.setArguments(args);
+
+			getSupportFragmentManager().beginTransaction().add(R.id.forecast_container, forecastFragment).commit();
+
+		} else {
+			// Set up the action bar.
+			final ActionBar actionBar = getActionBar();
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+			// Create the adapter that will return a fragment for each of the three
+			// primary sections of the app.
+			mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+			// Set up the ViewPager with the sections adapter.
+			mViewPager = (ViewPager) findViewById(R.id.pager);
+			mViewPager.setAdapter(mSectionsPagerAdapter);
+
+			// When swiping between different sections, select the corresponding
+			// tab. We can also use ActionBar.Tab#select() to do this if we have
+			// a reference to the Tab.
+			mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+				@Override
+				public void onPageSelected(int position) {
+					actionBar.setSelectedNavigationItem(position);
+				}
+			});
+
+			// For each of the sections in the app, add a tab to the action bar.
+			for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+				// Create a tab with text corresponding to the page title defined by
+				// the adapter. Also specify this Activity object, which implements
+				// the TabListener interface, as the callback (listener) for when
+				// this tab is selected.
+				actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
+			}
 		}
 
 		try {
@@ -110,7 +130,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		
+
 		HttpResponseCache cache = HttpResponseCache.getInstalled();
 		if (cache != null) {
 			cache.flush();
@@ -121,28 +141,24 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.forecast, menu);
-		menu.getItem(0).setOnMenuItemClickListener(new OnMenuItemClickListener()
-        {
-            public boolean onMenuItemClick(MenuItem clickedItem)
-            {
-        		Toast toast = Toast.makeText(getApplicationContext(), "Built by Jeffrey Hann, copyright 2013", Toast.LENGTH_SHORT);
-        		toast.show();
-            	
-                return true;
-            }
-        });
-		
-		menu.getItem(1).setOnMenuItemClickListener(new OnMenuItemClickListener()
-        {
-            public boolean onMenuItemClick(MenuItem clickedItem)
-            {
-        		final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
-        		startActivity(intent);
-        		
-        		return true;
-            }
-        });
-		
+		menu.getItem(0).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem clickedItem) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Built by Jeffrey Hann, copyright 2013", Toast.LENGTH_SHORT);
+				toast.show();
+
+				return true;
+			}
+		});
+
+		menu.getItem(1).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem clickedItem) {
+				final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
+				startActivity(intent);
+
+				return true;
+			}
+		});
+
 		return true;
 	}
 
@@ -240,7 +256,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			dayText1 = (TextView) rootView.findViewById(R.id.DayForecast1);
 			dayText2 = (TextView) rootView.findViewById(R.id.DayForecast2);
 			dayText3 = (TextView) rootView.findViewById(R.id.DayForecast3);
-			
+
 			day1Icon = (ImageView) rootView.findViewById(R.id.imageView1);
 			day2Icon = (ImageView) rootView.findViewById(R.id.imageView2);
 			day3Icon = (ImageView) rootView.findViewById(R.id.imageView3);
@@ -250,7 +266,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 			return rootView;
 		}
-		
+
 		public void setExtraDetails(String c, String t) {
 			time.setText(t);
 			city.setText(c);
@@ -271,16 +287,15 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			for (int i = 0; i < days.size(); i++) {
 				ForecastObject.ForecastDay day = days.get(i);
 
-				try 
-				{
-				    InputStream ims = assets.open(day.getIcon()+".gif");
-				    Drawable d = Drawable.createFromStream(ims, null);
-				    
+				try {
+					InputStream ims = assets.open(day.getIcon() + ".gif");
+					Drawable d = Drawable.createFromStream(ims, null);
+
 					switch (i) {
 						case 0 :
 							dayTitle1.setText(day.getDay());
 							dayText1.setText(day.getText());
-						    day1Icon.setImageDrawable(d);
+							day1Icon.setImageDrawable(d);
 						case 1 :
 							dayTitle2.setText(day.getDay());
 							dayText2.setText(day.getText());
@@ -290,9 +305,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 							dayText3.setText(day.getText());
 							day3Icon.setImageDrawable(d);
 					}
-				}
-				catch(IOException ex) 
-				{
+				} catch (IOException ex) {
 					day1Icon.setVisibility(View.GONE);
 					day2Icon.setVisibility(View.GONE);
 					day3Icon.setVisibility(View.GONE);
@@ -336,7 +349,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			windchill = (TextView) rootView.findViewById(R.id.windchill);
 
 			time = (TextView) rootView.findViewById(R.id.time);
-			
+
 			icon_view = (ImageView) rootView.findViewById(R.id.imageView1);
 
 			return rootView;
@@ -344,7 +357,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 		public void setConditions() {
 			ConditionsObject conditions = Forecast.conditionsObject;
-			
+
 			((ForecastFragment) forecastFragment).setExtraDetails(conditions.getCity(), conditions.getTime());
 
 			city.setText("For " + conditions.getCity());
@@ -353,12 +366,11 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			humidity.setText(conditions.getHumidity());
 			feels.setText(conditions.getFeelslike() + "¡ C");
 
-			/*if (conditions.getVisibility() != "N/A") {
-				visib.setText(conditions.getVisibility() + "km");
-			} else {
-				visib_label.setVisibility(View.GONE);
-				visib.setVisibility(View.GONE);
-			}*/
+			/*
+			 * if (conditions.getVisibility() != "N/A") { visib.setText(conditions.getVisibility() +
+			 * "km"); } else { visib_label.setVisibility(View.GONE); visib.setVisibility(View.GONE);
+			 * }
+			 */
 
 			if (conditions.getUV() > 0) {
 				uv_index.setText(String.valueOf(conditions.getUV()));
@@ -368,24 +380,20 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 			precip.setText(conditions.getPrecip() + "mm");
 
-			/*if (conditions.getWindchill() != "NA") {
-				windchill.setText(conditions.getWindchill());
-			} else {
-				windchill_label.setVisibility(View.GONE);
-				windchill.setVisibility(View.GONE);
-			}*/
-			
-			try 
-			{
-			    // get input stream
-			    InputStream ims = assets.open(conditions.getIcon()+".gif");
-			    // load image as Drawable
-			    Drawable d = Drawable.createFromStream(ims, null);
+			/*
+			 * if (conditions.getWindchill() != "NA") {
+			 * windchill.setText(conditions.getWindchill()); } else {
+			 * windchill_label.setVisibility(View.GONE); windchill.setVisibility(View.GONE); }
+			 */
+
+			try {
+				// get input stream
+				InputStream ims = assets.open(conditions.getIcon() + ".gif");
+				// load image as Drawable
+				Drawable d = Drawable.createFromStream(ims, null);
 				// set image to ImageView
-			    icon_view.setImageDrawable(d);
-			}
-			catch(IOException ex) 
-			{
+				icon_view.setImageDrawable(d);
+			} catch (IOException ex) {
 				icon_view.setVisibility(View.GONE);
 			}
 

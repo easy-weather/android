@@ -7,4 +7,6 @@
     <item name="windchill_layout" type="id" />
     <item name="DayForecast1" type="id" />
     <item name="DayForecast2" type="id" />
+    <item name="frames_container" type="id" />
+    <item name="conditions_layout" type="id" />
 </resources>
