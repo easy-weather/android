@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/frames_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@id/conditions_layout"
+        android:layout_width="500dp"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:id="@+id/conditions_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        </FrameLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/conditions_layout" >
+
+        <FrameLayout
+            android:id="@+id/forecast_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        </FrameLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

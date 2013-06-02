@@ -3,8 +3,6 @@ package com.keepiteasy.easyweather;
 import java.util.Date;
 import java.util.List;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +11,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 
 public class LoadingActivity extends Activity {
 
@@ -32,15 +28,13 @@ public class LoadingActivity extends Activity {
 		setContentView(R.layout.activity_loading);
 
 		activity = this;
-
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) && !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			final Intent intent = new Intent(LoadingActivity.this, ErrorActivity.class);
 			startActivity(intent);
 			finish();
 		} else {
-			//WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);	
 			ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo wifiInfo = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 			NetworkInfo mobileInfo = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -90,17 +84,15 @@ public class LoadingActivity extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
 			toast.show();
 
-			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+			if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+			} else {
+				lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+			}
 		} else {
 			loadWeather();
 		}
 
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		EasyTracker.getInstance().activityStart(this); // Add this method.
 	}
 	protected void loadWeather() {
 		String text = "We know where you are, now let's ask the weather Gods what its like...";

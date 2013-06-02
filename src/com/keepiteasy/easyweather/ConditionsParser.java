@@ -55,7 +55,6 @@ public class ConditionsParser extends AsyncTask<String, Void, JSONObject> {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		if (result != null) {
-			Log.d("results", result.toString());
 			Forecast.setConditions(new ConditionsObject(result));
 			caller.finish();
 		}

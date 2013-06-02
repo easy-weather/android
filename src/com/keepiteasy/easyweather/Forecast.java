@@ -10,7 +10,6 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.http.HttpResponseCache;
@@ -30,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class Forecast extends FragmentActivity implements ActionBar.TabListener {
 
@@ -62,6 +63,17 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_forecast);
+
+		try {
+			File httpCacheDir = new File(getApplicationContext().getCacheDir(), "http");
+			long httpCacheSize = 1 * 1024 * 1024;
+			HttpResponseCache.install(httpCacheDir, httpCacheSize);
+		} catch (IOException e) {
+			Log.i("uh-oh", "HTTP response cache installation failed:" + e);
+		}
+
+		final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
+		startActivity(intent);
 
 		assets = getAssets();
 
@@ -114,17 +126,12 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 				actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 			}
 		}
+	}
 
-		try {
-			File httpCacheDir = new File(getApplicationContext().getCacheDir(), "http");
-			long httpCacheSize = 1 * 1024 * 1024;
-			HttpResponseCache.install(httpCacheDir, httpCacheSize);
-		} catch (IOException e) {
-			Log.i("uh-oh", "HTTP response cache installation failed:" + e);
-		}
-
-		final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
-		startActivity(intent);
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); 
 	}
 
 	@Override
@@ -135,6 +142,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		if (cache != null) {
 			cache.flush();
 		}
+		
+		EasyTracker.getInstance().activityStop(this); 
 	}
 
 	@Override
@@ -397,7 +406,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 				icon_view.setVisibility(View.GONE);
 			}
 
-			time.setTag(conditions.getTime());
+			time.setText(conditions.getTime());
 		}
 	}
 
