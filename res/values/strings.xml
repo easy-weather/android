@@ -37,5 +37,6 @@
     <string name="copyright">Built by Jeffrey Hann, copyright 2013</string>
     <string name="url">weather.keepiteasy.net</string>
     <string name="refresh">Refresh</string>
+    <string name="rate">Rate Easy Weather</string>
 
 </resources>

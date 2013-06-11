@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.tjeannin.apprate.AppRate;
 
 public class Forecast extends FragmentActivity implements ActionBar.TabListener {
 
@@ -57,11 +62,16 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 
 	public static Location location;
 
+	private Activity act;
+	private Context cont;
+
 	private static ConditionsObject conditionsObject;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		act = this;
+		cont = getApplicationContext();
 		setContentView(R.layout.activity_forecast);
 
 		try {
@@ -71,6 +81,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		} catch (IOException e) {
 			Log.i("uh-oh", "HTTP response cache installation failed:" + e);
 		}
+
+		new AppRate(this).setShowIfAppHasCrashed(false).setMinDaysUntilPrompt(3).setMinLaunchesUntilPrompt(5).init();
 
 		final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
 		startActivity(intent);
@@ -131,7 +143,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this); 
+		EasyTracker.getInstance().activityStart(this);
 	}
 
 	@Override
@@ -142,8 +154,8 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		if (cache != null) {
 			cache.flush();
 		}
-		
-		EasyTracker.getInstance().activityStop(this); 
+
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override
@@ -163,6 +175,20 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 			public boolean onMenuItemClick(MenuItem clickedItem) {
 				final Intent intent = new Intent(Forecast.this, LoadingActivity.class);
 				startActivity(intent);
+
+				return true;
+			}
+		});
+
+		menu.getItem(2).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem clickedItem) {
+				Uri uri = Uri.parse("market://details?id=" + cont.getPackageName());
+				Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+				try {
+					startActivity(goToMarket);
+				} catch (ActivityNotFoundException e) {
+					Toast.makeText(cont, "Couldn't launch the market", Toast.LENGTH_LONG).show();
+				}
 
 				return true;
 			}
