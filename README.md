@@ -1,4 +1,4 @@
-Easy-Weather-Android-App
+Easy Weather (Android)
 ========================
 
 Native Android application for Easy Weather (http://weather.keepiteasy.net/), an HTML5 weather service that
