@@ -38,5 +38,6 @@
     <string name="url">weather.keepiteasy.net</string>
     <string name="refresh">Refresh</string>
     <string name="rate">Rate Easy Weather</string>
+    <string name="loading">loading your local weather</string>
 
 </resources>

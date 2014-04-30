@@ -9,7 +9,9 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -31,6 +33,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -218,8 +221,16 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 	}
 
 	public static void setConditions(ConditionsObject data) {
-		conditionsObject = data;
+		setConditionsObject(data);
 		((ConditionsFragment) conditionsFragement).setConditions();
+	}
+
+	public static ConditionsObject getConditionsObject() {
+		return conditionsObject;
+	}
+
+	public static void setConditionsObject(ConditionsObject conditionsObject) {
+		Forecast.conditionsObject = conditionsObject;
 	}
 
 	/**
@@ -353,8 +364,10 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		public static ImageView icon_view;
 		public static TextView city, temp, temp_c, humidity_label, humidity, uv_index_label, time, uv_index, precip_label, precip, feels, feels_label, visib, visib_label, windchill, windchill_label;
+		private Context context;
 
 		public ConditionsFragment() {
+			context = getActivity();
 		}
 
 		@Override
@@ -391,7 +404,7 @@ public class Forecast extends FragmentActivity implements ActionBar.TabListener 
 		}
 
 		public void setConditions() {
-			ConditionsObject conditions = Forecast.conditionsObject;
+			ConditionsObject conditions = Forecast.getConditionsObject();
 
 			((ForecastFragment) forecastFragment).setExtraDetails(conditions.getCity(), conditions.getTime());
 

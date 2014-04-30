@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import android.net.NetworkInfo;
 
@@ -104,10 +105,11 @@ public class LoadingActivity extends Activity {
 		String lo = String.valueOf(lastLocation.getLongitude());
 
 		ForecastParser parser = new ForecastParser(activity);
-		parser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/forecast/" + la + "/" + lo);
+		parser.execute("http://easyweather.herokuapp.com//forecast/" + la + "/" + lo);
 
 		ConditionsParser cParser = new ConditionsParser(activity);
-		cParser.execute("http://54.245.106.49/easy-weather-api/index.php/weather/conditions/" + la + "/" + lo);
+		Log.d("conditions", "http://easyweather.herokuapp.com/conditions/" + la + "/" + lo);
+		cParser.execute("http://easyweather.herokuapp.com/conditions/" + la + "/" + lo);
 	}
 
 	public void onError(String error) {
